@@ -16,6 +16,7 @@
 - Tự nhận diện loại FX từ tên ảnh theme Candy Serenade và loại Album từ IF I SAY, I LOVE YOU; các ảnh không khớp theme đã xác minh vẫn để chưa rõ thay vì đoán.
 - Chọn Level 1–60 riêng cho từng thẻ hoặc cập nhật hàng loạt để tính lại chỉ số và sức mạnh đội hình.
 - Chấm điểm yêu thích từ 1 đến 5 sao.
+- Di chuột vào bất kỳ thẻ nào trong bộ sưu tập hoặc danh sách đội hình (hoặc bấm nút "ℹ Hồ sơ") để xem ngay bảng thông tin cơ bản của thành viên đó: Tên thật, Ngày sinh, Cung hoàng đạo, Quốc tịch, Vị trí trong nhóm, Công ty quản lý, Fandom, Tiểu sử tóm tắt và chỉ số sức mạnh của thẻ.
 - Tạo đội hình tối đa 5 thẻ cùng một nhóm nhạc; lưu, mở và xóa nhiều đội hình bằng LocalStorage.
 - Nhập thêm danh mục thẻ từ tệp JSON. Thẻ có ID trùng sẽ được cập nhật; thẻ khác được giữ nguyên.
 - Tự tìm ảnh thẻ theo tên nhân vật trong danh mục nhóm tương ứng trên Rhythm Hive Wiki; ảnh liên kết về trang tệp nguồn.

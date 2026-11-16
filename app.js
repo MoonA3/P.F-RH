@@ -44,6 +44,736 @@ function memberKey(group, name) {
   return `${group}:${name.toLocaleLowerCase().replace(/[^a-z0-9]/g, "")}`;
 }
 
+const groupInfo = {
+  BTS: {
+    fullName: "BTS (방탄소년단)",
+    agency: "BIGHIT MUSIC (HYBE)",
+    debut: "13/06/2013",
+    fandom: "ARMY",
+    color: "#a894fa",
+  },
+  TXT: {
+    fullName: "TOMORROW X TOGETHER (투모로우바이투게더)",
+    agency: "BIGHIT MUSIC (HYBE)",
+    debut: "04/03/2019",
+    fandom: "MOA",
+    color: "#67b2ff",
+  },
+  ENHYPEN: {
+    fullName: "ENHYPEN (엔하이픈)",
+    agency: "BELIFT LAB (HYBE)",
+    debut: "30/11/2020",
+    fandom: "ENGENE",
+    color: "#ff6570",
+  },
+  SEVENTEEN: {
+    fullName: "SEVENTEEN (세븐틴)",
+    agency: "PLEDIS Entertainment (HYBE)",
+    debut: "26/05/2015",
+    fandom: "CARAT",
+    color: "#f5ce84",
+  },
+  "LE SSERAFIM": {
+    fullName: "LE SSERAFIM (르세라핌)",
+    agency: "SOURCE MUSIC (HYBE)",
+    debut: "02/05/2022",
+    fandom: "FEARNOT",
+    color: "#8be4c4",
+  },
+  NewJeans: {
+    fullName: "NewJeans (뉴진스)",
+    agency: "ADOR (HYBE)",
+    debut: "22/07/2022",
+    fandom: "Bunnies",
+    color: "#82cefa",
+  },
+  BOYNEXTDOOR: {
+    fullName: "BOYNEXTDOOR (보이넥스트도어)",
+    agency: "KOZ Entertainment (HYBE)",
+    debut: "30/05/2023",
+    fandom: "ONEDOOR",
+    color: "#f68bb2",
+  },
+  ILLIT: {
+    fullName: "ILLIT (아일릿)",
+    agency: "BELIFT LAB (HYBE)",
+    debut: "25/03/2024",
+    fandom: "GLLIT",
+    color: "#bd8cff",
+  },
+  TWS: {
+    fullName: "TWS (Twenty Four Seven With Us / 투어스)",
+    agency: "PLEDIS Entertainment (HYBE)",
+    debut: "22/01/2024",
+    fandom: "42 (SAI)",
+    color: "#65d79b",
+  },
+};
+
+const memberProfiles = {
+  // BTS
+  "BTS:rm": {
+    name: "RM",
+    realName: "Kim Nam-joon (김남준)",
+    group: "BTS",
+    birthDate: "12/09/1994",
+    zodiac: "Xử Nữ ♍",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng nhóm, Rapper chính",
+    bio: "Trưởng nhóm thông minh kiệt xuất với khả năng sáng tác đỉnh cao, là linh hồn định hình phong cách âm nhạc của BTS.",
+  },
+  "BTS:jin": {
+    name: "Jin",
+    realName: "Kim Seok-jin (김석진)",
+    group: "BTS",
+    birthDate: "04/12/1992",
+    zodiac: "Nhân Mã ♐",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Hát phụ, Visual, Anh cả",
+    bio: "Anh cả 'Worldwide Handsome' với chất giọng ballad ngọt ngào, truyền cảm và tinh thần hài hước ấm áp.",
+  },
+  "BTS:suga": {
+    name: "SUGA",
+    realName: "Min Yoon-gi (민윤기) / Agust D",
+    group: "BTS",
+    birthDate: "09/03/1993",
+    zodiac: "Song Ngư ♓",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Rapper dẫn, Producer",
+    bio: "Nhà sản xuất âm nhạc tài ba với flow rap sắc sảo, chiều sâu cảm xúc và hàng loạt bản hit vang danh toàn cầu.",
+  },
+  "BTS:jhope": {
+    name: "j-hope",
+    realName: "Jung Ho-seok (정호석)",
+    group: "BTS",
+    birthDate: "18/02/1994",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Nhảy chính, Rapper phụ",
+    bio: "Cỗ máy nhảy hàng đầu K-Pop với kỹ năng freestyle điêu luyện và nguồn năng lượng tích cực tỏa sáng rực rỡ.",
+  },
+  "BTS:jimin": {
+    name: "Jimin",
+    realName: "Park Ji-min (박지민)",
+    group: "BTS",
+    birthDate: "13/10/1995",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Nhảy chính, Hát dẫn",
+    bio: "Vũ công đương đại xuất sắc với chất giọng cao vút, mềm mại cùng thần thái sân khấu quyến rũ mê hoặc.",
+  },
+  "BTS:v": {
+    name: "V",
+    realName: "Kim Tae-hyung (김태형)",
+    group: "BTS",
+    birthDate: "30/12/1995",
+    zodiac: "Ma Kết ♑",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Hát phụ, Visual",
+    bio: "Sở hữu chất giọng baritone trầm ấm độc nhất vô nhị cùng gương mặt từng đạt vị trí Top 1 Visual thế giới.",
+  },
+  "BTS:jungkook": {
+    name: "Jungkook",
+    realName: "Jeon Jung-kook (전정국)",
+    group: "BTS",
+    birthDate: "01/09/1997",
+    zodiac: "Xử Nữ ♍",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Hát chính, Nhảy dẫn, Center, Maknae",
+    bio: "'Golden Maknae' toàn năng hoàn hảo trong cả giọng hát pop quốc tế, vũ đạo sắc bén và phong cách ngôi sao toàn cầu.",
+  },
+
+  // TXT
+  "TXT:soobin": {
+    name: "Soobin",
+    realName: "Choi Soo-bin (최수빈)",
+    group: "TXT",
+    birthDate: "05/12/2000",
+    zodiac: "Nhân Mã ♐",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng nhóm, Hát phụ",
+    bio: "Trưởng nhóm ấm áp, đáng tin cậy với nụ cười má lúm đồng tiền hiền hậu và chiều cao ấn tượng 1m85.",
+  },
+  "TXT:yeonjun": {
+    name: "Yeonjun",
+    realName: "Choi Yeon-jun (최연준)",
+    group: "TXT",
+    birthDate: "13/09/1999",
+    zodiac: "Xử Nữ ♍",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Rapper, Dancer, Vocalist, Anh cả",
+    bio: "'Thực tập sinh huyền thoại' của Big Hit, toàn diện xuất sắc ở cả vũ đạo hip-hop, rap và thần thái sân khấu đỉnh cao.",
+  },
+  "TXT:beomgyu": {
+    name: "Beomgyu",
+    realName: "Choi Beom-gyu (최범규)",
+    group: "TXT",
+    birthDate: "13/03/2001",
+    zodiac: "Song Ngư ♓",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer, Visual, Center",
+    bio: "Visual rạng rỡ tựa nhân vật truyện tranh hoạt hình, luôn tràn đầy năng lượng tươi vui và biết chơi guitar acoustic.",
+  },
+  "TXT:taehyun": {
+    name: "Taehyun",
+    realName: "Kang Tae-hyun (강태현)",
+    group: "TXT",
+    birthDate: "05/02/2002",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Hát chính",
+    bio: "Giọng ca nội lực với những nốt cao bùng nổ, tư duy nhạy bén, logic và niềm đam mê âm nhạc kiên định.",
+  },
+  "TXT:hueningkai": {
+    name: "Huening Kai",
+    realName: "Kai Kamal Huening (카이 카말 휴닝)",
+    group: "TXT",
+    birthDate: "14/08/2002",
+    zodiac: "Sư Tử ♌",
+    nationality: "Mỹ 🇺🇸",
+    position: "Vocalist, Dancer, Visual, Maknae",
+    bio: "Em út thiên thần đa tài chơi thành thạo piano và guitar, sở hữu giọng ca trong sáng như pha lê cùng vẻ đẹp lai cuốn hút.",
+  },
+
+  // ENHYPEN
+  "ENHYPEN:jungwon": {
+    name: "Jungwon",
+    realName: "Yang Jung-won (양정원)",
+    group: "ENHYPEN",
+    birthDate: "09/02/2004",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng nhóm, Vocalist, Dancer",
+    bio: "Trưởng nhóm trẻ tuổi bản lĩnh với chất giọng độc lạ cuốn hút và kỹ năng vũ đạo popping dứt khoát chuẩn xác.",
+  },
+  "ENHYPEN:heeseung": {
+    name: "Heeseung",
+    realName: "Lee Hee-seung (이희승)",
+    group: "ENHYPEN",
+    birthDate: "15/10/2001",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Center, Main Vocalist, Dancer",
+    bio: "Thành viên át chủ bài (Ace) sở hữu cao độ tuyệt đối (perfect pitch) cùng kỹ thuật thanh nhạc và vũ đạo điêu luyện.",
+  },
+  "ENHYPEN:jay": {
+    name: "Jay",
+    realName: "Park Jong-seong (박종성) / Jay Park",
+    group: "ENHYPEN",
+    birthDate: "20/04/2002",
+    zodiac: "Kim Ngưu ♉",
+    nationality: "Mỹ 🇺🇸 - Hàn Quốc 🇰🇷",
+    position: "Rapper, Dancer, Vocalist",
+    bio: "Chàng trai tràn đầy nhiệt huyết, chơi guitar điện điêu luyện và luôn là người truyền lửa, tạo bầu không khí cho nhóm.",
+  },
+  "ENHYPEN:jake": {
+    name: "Jake",
+    realName: "Sim Jae-yun (심재윤) / Jake Sim",
+    group: "ENHYPEN",
+    birthDate: "15/11/2002",
+    zodiac: "Bọ Cạp ♏",
+    nationality: "Úc 🇦🇺 - Hàn Quốc 🇰🇷",
+    position: "Vocalist, Rapper",
+    bio: "Chàng trai ấm áp đến từ nước Úc với nụ cười tỏa nắng, chất giọng ngọt ngào và năng lượng tích cực lan tỏa.",
+  },
+  "ENHYPEN:sunghoon": {
+    name: "Sunghoon",
+    realName: "Park Sung-hoon (박성훈)",
+    group: "ENHYPEN",
+    birthDate: "08/12/2002",
+    zodiac: "Nhân Mã ♐",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer, Visual",
+    bio: "'Hoàng tử sân băng' cựu vận động viên trượt băng nghệ thuật quốc gia sở hữu vóc dáng chuẩn mực và thần thái quý phái.",
+  },
+  "ENHYPEN:sunoo": {
+    name: "Sunoo",
+    realName: "Kim Sun-woo (김선우)",
+    group: "ENHYPEN",
+    birthDate: "24/06/2003",
+    zodiac: "Cự Giải ♋",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist",
+    bio: "Biểu tượng năng lượng tươi sáng với khả năng biến hóa biểu cảm khuôn mặt xuất thần trên từng sân khấu biểu diễn.",
+  },
+  "ENHYPEN:niki": {
+    name: "NI-KI",
+    realName: "Nishimura Riki (西村力 / 니시무라 리키)",
+    group: "ENHYPEN",
+    birthDate: "09/12/2005",
+    zodiac: "Nhân Mã ♐",
+    nationality: "Nhật Bản 🇯🇵",
+    position: "Main Dancer, Vocalist, Maknae",
+    bio: "Thần đồng vũ đạo Nhật Bản học nhảy từ nhỏ, nổi danh với những bước nhảy sắc sảo, tốc độ và uy lực vượt bậc.",
+  },
+
+  // SEVENTEEN
+  "SEVENTEEN:scoups": {
+    name: "S.COUPS",
+    realName: "Choi Seung-cheol (최승철)",
+    group: "SEVENTEEN",
+    birthDate: "08/08/1995",
+    zodiac: "Sư Tử ♌",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Tổng Trưởng nhóm, Trưởng Hip-hop Team, Rapper",
+    bio: "Trụ cột vững chắc lãnh đạo 13 thành viên với tinh thần trách nhiệm thép và kỹ năng rap đầy nội lực, dứt khoát.",
+  },
+  "SEVENTEEN:jeonghan": {
+    name: "Jeonghan",
+    realName: "Yoon Jeong-han (윤정한)",
+    group: "SEVENTEEN",
+    birthDate: "04/10/1995",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Lead Vocalist, Visual (Vocal Team)",
+    bio: "'Thiên thần' của nhóm với giọng hát êm dịu, vẻ đẹp phi giới tính nổi bật và tư duy chiến thuật nhanh trí, thông minh.",
+  },
+  "SEVENTEEN:joshua": {
+    name: "Joshua",
+    realName: "Joshua Jisoo Hong (홍지수)",
+    group: "SEVENTEEN",
+    birthDate: "30/12/1995",
+    zodiac: "Ma Kết ♑",
+    nationality: "Mỹ 🇺🇸",
+    position: "Lead Vocalist, Visual (Vocal Team)",
+    bio: "'Quý ông lịch lãm' đến từ Los Angeles với chất giọng mộc mạc ngọt ngào và khả năng chơi acoustic guitar tài hoa.",
+  },
+  "SEVENTEEN:jun": {
+    name: "Jun",
+    realName: "Wen Junhui (文俊辉 / 문준휘)",
+    group: "SEVENTEEN",
+    birthDate: "10/06/1996",
+    zodiac: "Song Tử ♊",
+    nationality: "Trung Quốc 🇨🇳",
+    position: "Lead Dancer, Sub Vocalist (Performance Team)",
+    bio: "Xuất thân từ diễn viên nhí và võ thuật wushu, mang đến những động tác vũ đạo uyển chuyển và vẻ đẹp cổ phong sắc nét.",
+  },
+  "SEVENTEEN:hoshi": {
+    name: "Hoshi",
+    realName: "Kwon Soon-young (권순영)",
+    group: "SEVENTEEN",
+    birthDate: "15/06/1996",
+    zodiac: "Song Tử ♊",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng Performance Team, Main Dancer, Lead Vocalist",
+    bio: "Biên đạo chính tài năng đứng sau vũ đạo đồng đều trứ danh của SEVENTEEN, mang ngọn lửa đam mê 'Horanghae' rực cháy.",
+  },
+  "SEVENTEEN:wonwoo": {
+    name: "Wonwoo",
+    realName: "Jeon Won-woo (전원우)",
+    group: "SEVENTEEN",
+    birthDate: "17/07/1996",
+    zodiac: "Cự Giải ♋",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Rapper, Sub Vocalist (Hip-hop Team)",
+    bio: "Chàng trai điềm đạm với chất giọng bass trầm ấm cuốn hút, niềm đam mê đọc sách và vẻ ngoài đậm chất tài tử điện ảnh.",
+  },
+  "SEVENTEEN:woozi": {
+    name: "Woozi",
+    realName: "Lee Ji-hoon (이지훈)",
+    group: "SEVENTEEN",
+    birthDate: "22/11/1996",
+    zodiac: "Bọ Cạp ♏",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng Vocal Team, Lead Vocalist, Producer chính",
+    bio: "Nhà sản xuất âm nhạc thiên tài, người sáng tác và hòa âm phối khí nên hầu hết tất cả bài hát đưa SEVENTEEN lên đỉnh cao.",
+  },
+  "SEVENTEEN:dk": {
+    name: "DK",
+    realName: "Lee Seok-min (이석민)",
+    group: "SEVENTEEN",
+    birthDate: "18/02/1997",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Vocalist (Vocal Team), Trưởng nhóm BSS",
+    bio: "Giọng ca vàng đầy nội lực kiêm diễn viên nhạc kịch xuất sắc, là 'Happy Virus' mang lại tiếng cười cho mọi người.",
+  },
+  "SEVENTEEN:mingyu": {
+    name: "Mingyu",
+    realName: "Kim Min-gyu (김민규)",
+    group: "SEVENTEEN",
+    birthDate: "06/04/1997",
+    zodiac: "Bạch Dương ♈",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Rapper, Visual, Sub Vocalist (Hip-hop Team)",
+    bio: "Visual nổi bật cao 1m87, đảm nhiệm cả rap, vũ đạo, nấu ăn khéo léo và là thỏi nam châm hút fan của nhóm.",
+  },
+  "SEVENTEEN:the8": {
+    name: "The8",
+    realName: "Xu Minghao (徐明浩 / 서명호)",
+    group: "SEVENTEEN",
+    birthDate: "07/11/1997",
+    zodiac: "Bọ Cạp ♏",
+    nationality: "Trung Quốc 🇨🇳",
+    position: "Lead Dancer, Sub Vocalist (Performance Team)",
+    bio: "B-boy điêu luyện sở hữu gu thời trang nghệ thuật tinh tế, những bước nhảy nhẹ nhàng tựa lông vũ và tâm hồn thiền định.",
+  },
+  "SEVENTEEN:seungkwan": {
+    name: "Seungkwan",
+    realName: "Boo Seung-kwan (부승관)",
+    group: "SEVENTEEN",
+    birthDate: "16/01/1998",
+    zodiac: "Ma Kết ♑",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Vocalist (Vocal Team)",
+    bio: "Giọng ca truyền cảm da diết đến từ đảo Jeju, là ngôi sao tạp kỹ duyên dáng được đông đảo công chúng yêu mến.",
+  },
+  "SEVENTEEN:vernon": {
+    name: "Vernon",
+    realName: "Hansol Vernon Chwe (최한솔)",
+    group: "SEVENTEEN",
+    birthDate: "18/02/1998",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Mỹ 🇺🇸 - Hàn Quốc 🇰🇷",
+    position: "Main Rapper, Visual (Hip-hop Team)",
+    bio: "Rapper tài năng với phong cách hip-hop phóng khoáng, flow tự nhiên cùng gương mặt lai Tây sắc nét.",
+  },
+  "SEVENTEEN:dino": {
+    name: "Dino",
+    realName: "Lee Chan (이찬)",
+    group: "SEVENTEEN",
+    birthDate: "11/02/1999",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Dancer, Sub Vocalist, Rapper, Maknae",
+    bio: "'Tương lai của K-Pop' em út chăm chỉ xuất thân từ gia đình vũ công, sở hữu kỹ thuật nhảy đỉnh cao và khả năng biên đạo điêu luyện.",
+  },
+
+  // LE SSERAFIM
+  "LE SSERAFIM:sakura": {
+    name: "Sakura",
+    realName: "Miyawaki Sakura (宮脇 咲良 / 미야와키 사쿠라)",
+    group: "LE SSERAFIM",
+    birthDate: "19/03/1998",
+    zodiac: "Song Ngư ♓",
+    nationality: "Nhật Bản 🇯🇵",
+    position: "Vocalist, Dancer, Visual, Chị cả",
+    bio: "Thần tượng kỳ cựu với sự nghiệp bền bỉ qua HKT48, IZ*ONE và LE SSERAFIM, biểu tượng của sự kiên định và ý chí phi thường.",
+  },
+  "LE SSERAFIM:chaewon": {
+    name: "Chaewon",
+    realName: "Kim Chae-won (김채원)",
+    group: "LE SSERAFIM",
+    birthDate: "01/08/2000",
+    zodiac: "Sư Tử ♌",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng nhóm, Vocalist, Dancer",
+    bio: "Trưởng nhóm tóc ngắn đầy cuốn hút với chất giọng thanh mảnh ngọt ngào, vũ đạo dứt khoát và phong cách biểu diễn tự tin.",
+  },
+  "LE SSERAFIM:yunjin": {
+    name: "Yunjin",
+    realName: "Huh Yun-jin (허윤진) / Jennifer Huh",
+    group: "LE SSERAFIM",
+    birthDate: "08/10/2001",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Mỹ 🇺🇸 - Hàn Quốc 🇰🇷",
+    position: "Main Vocalist, Producer",
+    bio: "Giọng ca nội lực xuất thân opera với tư duy nghệ thuật hiện đại, tự sáng tác nhiều ca khúc solo ý nghĩa và tràn đầy cá tính.",
+  },
+  "LE SSERAFIM:kazuha": {
+    name: "Kazuha",
+    realName: "Nakamura Kazuha (中村 一葉 / 나카무라 카즈하)",
+    group: "LE SSERAFIM",
+    birthDate: "09/08/2003",
+    zodiac: "Sư Tử ♌",
+    nationality: "Nhật Bản 🇯🇵",
+    position: "Dancer, Rapper, Vocalist",
+    bio: "Vũ công ba lê chuyên nghiệp được đào tạo tại Hà Lan, sở hữu vóc dáng chuẩn mực, sự dẻo dai và nét đẹp thanh tú thuần khiết.",
+  },
+  "LE SSERAFIM:eunchae": {
+    name: "Eunchae",
+    realName: "Hong Eun-chae (홍은채)",
+    group: "LE SSERAFIM",
+    birthDate: "10/11/2006",
+    zodiac: "Bọ Cạp ♏",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Dancer, Vocalist, Maknae",
+    bio: "'Manchae' em út đáng yêu tràn ngập nụ cười và năng lượng tuổi trẻ, có khả năng tiếp thu vũ đạo nhanh như chớp.",
+  },
+
+  // NewJeans
+  "NewJeans:minji": {
+    name: "Minji",
+    realName: "Kim Min-ji (김민지)",
+    group: "NewJeans",
+    birthDate: "07/05/2004",
+    zodiac: "Kim Ngưu ♉",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer",
+    bio: "Gương mặt thanh tú đậm chất điện ảnh cổ điển cùng chất giọng trầm ấm, phong thái tự nhiên và trưởng thành.",
+  },
+  "NewJeans:hanni": {
+    name: "Hanni",
+    realName: "Hanni Pham / Phạm Ngọc Hân (팜응옥헌)",
+    group: "NewJeans",
+    birthDate: "06/10/2004",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Úc 🇦🇺 - Việt Nam 🇻🇳",
+    position: "Main Vocalist, Main Dancer",
+    bio: "Thành viên gốc Việt tài năng với chất giọng R&B ngọt ngào, nụ cười rạng rỡ và khả năng viết lời, cảm thụ âm nhạc tinh tế.",
+  },
+  "NewJeans:danielle": {
+    name: "Danielle",
+    realName: "Danielle Marsh / Mo Ji-hye (모지혜)",
+    group: "NewJeans",
+    birthDate: "11/04/2005",
+    zodiac: "Bạch Dương ♈",
+    nationality: "Úc 🇦🇺 - Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer",
+    bio: "'Nàng tiên Disney' với giọng ca cao vút trong sáng, tính cách ấm áp lạc quan và từng lồng tiếng cho nhân vật Ariel trong Nàng Tiên Cá.",
+  },
+  "NewJeans:haerin": {
+    name: "Haerin",
+    realName: "Kang Hae-rin (강해린)",
+    group: "NewJeans",
+    birthDate: "15/05/2006",
+    zodiac: "Kim Ngưu ♉",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer",
+    bio: "Visual 'mèo con' trứ danh với nét cuốn hút bí ẩn, sở hữu kỹ năng nhảy popping điêu luyện và tính cách điềm tĩnh, dễ thương.",
+  },
+  "NewJeans:hyein": {
+    name: "Hyein",
+    realName: "Lee Hye-in (이혜인)",
+    group: "NewJeans",
+    birthDate: "21/04/2008",
+    zodiac: "Kim Ngưu ♉",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer, Maknae",
+    bio: "Em út Gen Z chiều cao ấn tượng với chất giọng soul sâu lắng và thần thái người mẫu thời trang quốc tế.",
+  },
+
+  // BOYNEXTDOOR
+  "BOYNEXTDOOR:sungho": {
+    name: "Sungho",
+    realName: "Park Sung-ho (박성호)",
+    group: "BOYNEXTDOOR",
+    birthDate: "04/09/2003",
+    zodiac: "Xử Nữ ♍",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Vocalist",
+    bio: "Giọng ca chính với dải âm rộng mượt mà cùng bờ vai Thái Bình Dương và tính cách ngăn nắp chu đáo.",
+  },
+  "BOYNEXTDOOR:riwoo": {
+    name: "Riwoo",
+    realName: "Lee Sang-hyeok (이상혁)",
+    group: "BOYNEXTDOOR",
+    birthDate: "22/10/2003",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Dancer, Vocalist",
+    bio: "Vũ công chính sắc bén từng theo học các học viện nhảy danh tiếng với những chuyển động hình thể dứt khoát.",
+  },
+  "BOYNEXTDOOR:jaehyun": {
+    name: "Jaehyun",
+    realName: "Myung Jae-hyun (명재현)",
+    group: "BOYNEXTDOOR",
+    birthDate: "04/12/2003",
+    zodiac: "Nhân Mã ♐",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng nhóm, Rapper, Vocalist",
+    bio: "Trưởng nhóm tràn đầy năng lượng như chú cún nhỏ với kỹ năng rap nhịp nhàng và sáng tác linh hoạt.",
+  },
+  "BOYNEXTDOOR:taesan": {
+    name: "Taesan",
+    realName: "Han Dong-min (한동민)",
+    group: "BOYNEXTDOOR",
+    birthDate: "10/08/2004",
+    zodiac: "Sư Tử ♌",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Rapper, Vocalist, Producer",
+    bio: "Chàng trai yêu nhạc rock cổ điển với khả năng sáng tác giai điệu bắt tai và phong cách thời trang độc đáo.",
+  },
+  "BOYNEXTDOOR:leehan": {
+    name: "Leehan",
+    realName: "Kim Dong-hyun (김동현)",
+    group: "BOYNEXTDOOR",
+    birthDate: "20/10/2004",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist",
+    bio: "Chàng trai yêu cá cảnh với đôi mắt lấp lánh như nước biển cùng chất giọng thì thầm ngọt ngào.",
+  },
+  "BOYNEXTDOOR:woonhak": {
+    name: "Woonhak",
+    realName: "Kim Woon-hak (김운학)",
+    group: "BOYNEXTDOOR",
+    birthDate: "29/11/2006",
+    zodiac: "Nhân Mã ♐",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Maknae",
+    bio: "Em út đáng yêu cao ráo luôn đem lại nụ cười rạng rỡ cùng khả năng sáng tác bài hát từ khi còn rất trẻ.",
+  },
+
+  // ILLIT
+  "ILLIT:yunah": {
+    name: "Yunah",
+    realName: "Noh Yun-ah (노윤아)",
+    group: "ILLIT",
+    birthDate: "15/01/2004",
+    zodiac: "Ma Kết ♑",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer, Chị cả",
+    bio: "Chị cả quyến rũ với thời gian thực tập dài nhất, biểu cảm sân khấu xuất chúng và khiếu hài hước tự nhiên.",
+  },
+  "ILLIT:minju": {
+    name: "Minju",
+    realName: "Park Min-ju (박민주)",
+    group: "ILLIT",
+    birthDate: "11/05/2004",
+    zodiac: "Kim Ngưu ♉",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer",
+    bio: "Sở hữu màu giọng độc đáo tựa 'nàng thơ indie' làm say đắm người nghe trong ca khúc Magnetic.",
+  },
+  "ILLIT:moka": {
+    name: "Moka",
+    realName: "Sakai Moka (境 萌花 / 사카이 모카)",
+    group: "ILLIT",
+    birthDate: "08/10/2004",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Nhật Bản 🇯🇵",
+    position: "Vocalist, Dancer",
+    bio: "Biểu cảm gương mặt 'triệu view' biến hóa theo từng giai điệu cùng những động tác vũ đạo duyên dáng.",
+  },
+  "ILLIT:wonhee": {
+    name: "Wonhee",
+    realName: "Lee Won-hee (이원희)",
+    group: "ILLIT",
+    birthDate: "26/06/2007",
+    zodiac: "Cự Giải ♋",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Center",
+    bio: "'Thần tượng thiên bẩm' với đôi mắt bồ câu to tròn, tiến bộ thần tốc chỉ sau thời gian ngắn làm thực tập sinh.",
+  },
+  "ILLIT:iroha": {
+    name: "Iroha",
+    realName: "Hokazono Iroha (外園 彩羽 / 호카조노 이로하)",
+    group: "ILLIT",
+    birthDate: "04/02/2008",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Nhật Bản 🇯🇵",
+    position: "Main Dancer, Vocalist, Maknae",
+    bio: "Cỗ máy nhảy nhí bắt đầu học nhảy từ năm 3 tuổi với kỹ thuật hip-hop điêu luyện và chuyển động nhịp nhàng.",
+  },
+
+  // TWS
+  "TWS:shinyu": {
+    name: "Shinyu",
+    realName: "Shin Jung-hwan (신정환)",
+    group: "TWS",
+    birthDate: "07/11/2003",
+    zodiac: "Bọ Cạp ♏",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Trưởng nhóm, Rapper, Dancer",
+    bio: "Trưởng nhóm điển trai với nét ngượng ngùng dễ thương cùng kỹ năng rap nhịp nhàng và visual thanh xuân học đường.",
+  },
+  "TWS:dohoon": {
+    name: "Dohoon",
+    realName: "Kim Do-hoon (김도훈)",
+    group: "TWS",
+    birthDate: "30/01/2005",
+    zodiac: "Bảo Bình ♒",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Dancer, Rapper",
+    bio: "Thành viên toàn năng sở hữu gương mặt sắc nét chuẩn visual và phong cách trình diễn cuốn hút.",
+  },
+  "TWS:youngjae": {
+    name: "Youngjae",
+    realName: "Choi Young-jae (최영재)",
+    group: "TWS",
+    birthDate: "31/05/2005",
+    zodiac: "Song Tử ♊",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Vocalist, Dancer",
+    bio: "Giọng ca chính trong sáng, ấm áp với nụ cười thân thiện và năng lượng học đường sảng khoái.",
+  },
+  "TWS:hanjin": {
+    name: "Hanjin",
+    realName: "Han Zhen (韩振 / 한진)",
+    group: "TWS",
+    birthDate: "05/01/2006",
+    zodiac: "Ma Kết ♑",
+    nationality: "Trung Quốc 🇨🇳",
+    position: "Vocalist, Visual",
+    bio: "Chàng trai Trung Quốc đáng yêu thích chụp ảnh với nụ cười thuần khiết và vẻ ngoài ấm áp như mối tình đầu.",
+  },
+  "TWS:jihoon": {
+    name: "Jihoon",
+    realName: "Han Ji-hoon (한지훈)",
+    group: "TWS",
+    birthDate: "28/03/2006",
+    zodiac: "Bạch Dương ♈",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Main Dancer, Vocalist",
+    bio: "Nhảy chính tài năng từng là thành viên của Trainee A với những bước nhảy mạnh mẽ và chuẩn xác.",
+  },
+  "TWS:kyungmin": {
+    name: "Kyungmin",
+    realName: "Lee Kyung-min (이경민)",
+    group: "TWS",
+    birthDate: "02/10/2007",
+    zodiac: "Thiên Bình ♎",
+    nationality: "Hàn Quốc 🇰🇷",
+    position: "Vocalist, Maknae",
+    bio: "Em út đáng yêu của TWS với giọng hát tươi mới, tinh nghịch và tinh thần lạc quan tràn trề.",
+  },
+};
+
+function getMemberProfile(group, name) {
+  const directKey = memberKey(group, name);
+  const found = memberProfiles[directKey];
+  const groupMeta = groupInfo[group] || {
+    fullName: group,
+    agency: "HYBE Labels",
+    debut: "",
+    fandom: "",
+    color: "#a894fa",
+  };
+
+  if (found) {
+    return {
+      ...found,
+      agency: found.agency || groupMeta.agency,
+      debut: found.debut || groupMeta.debut,
+      fandom: found.fandom || groupMeta.fandom,
+      groupColor: groupMeta.color,
+    };
+  }
+
+  // Fallback search by normalized name
+  const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  for (const [key, prof] of Object.entries(memberProfiles)) {
+    if (prof.group.toLowerCase() === group.toLowerCase()) {
+      const profClean = prof.name.toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (profClean === cleanName || prof.realName.toLowerCase().includes(cleanName)) {
+        return {
+          ...prof,
+          agency: prof.agency || groupMeta.agency,
+          debut: prof.debut || groupMeta.debut,
+          fandom: prof.fandom || groupMeta.fandom,
+          groupColor: groupMeta.color,
+        };
+      }
+    }
+  }
+
+  return {
+    name,
+    realName: name,
+    group,
+    birthDate: "Đang cập nhật",
+    zodiac: "—",
+    nationality: "—",
+    position: "Thành viên",
+    agency: groupMeta.agency,
+    debut: groupMeta.debut,
+    fandom: groupMeta.fandom,
+    bio: `Thành viên trong bộ sưu tập thẻ ${group} của Rhythm Hive.`,
+    groupColor: groupMeta.color,
+  };
+}
+
 function createRosterCards(sourceCards) {
   const knownMembers = new Set(sourceCards.map((card) => memberKey(card.group, card.name)));
   const groupTemplates = new Map();
@@ -165,6 +895,7 @@ const elements = {
   savedBuilds: document.querySelector("#saved-builds"),
   savedCount: document.querySelector("#saved-count"),
   importInput: document.querySelector("#import-input"),
+  memberTooltip: document.querySelector("#member-tooltip"),
 };
 
 function showNotice(message) {
@@ -955,7 +1686,7 @@ function renderCards() {
     const showExternalImageSearch = source?.manual || !source || cardImageDoesNotMatch(card, grade, card.type);
     const imageSearchUrls = cardImageSearchUrls(card, grade, type);
     return `
-      <article class="character-card${source ? " has-card-image" : ""} grade-${grade.toLowerCase()}${type ? ` type-${type.id}` : " type-unknown"}" style="${typeStyle}">
+      <article class="character-card${source ? " has-card-image" : ""} grade-${grade.toLowerCase()}${type ? ` type-${type.id}` : " type-unknown"}" style="${typeStyle}" data-id="${escapeHtml(card.id)}" data-name="${escapeHtml(card.name)}" data-group="${escapeHtml(card.group)}">
         <div class="card-visual" style="--card-bg:${palette[index % palette.length]}">
           <span class="grade-badge" title="Cấp thẻ ${grade}">${escapeHtml(grade)}</span>
           <span class="type-badge">${type ? escapeHtml(type.name) : "Chưa rõ loại"}</span>
@@ -964,7 +1695,12 @@ function renderCards() {
           <span class="card-group">${escapeHtml(card.group)}</span>
         </div>
         <div class="card-body">
-          <div class="card-title-row"><h3 class="card-title" title="${escapeHtml(card.name)}">${escapeHtml(card.name)}</h3></div>
+          <div class="card-title-row">
+            <h3 class="card-title" title="${escapeHtml(card.name)}">${escapeHtml(card.name)}</h3>
+            <button type="button" class="card-profile-btn" data-action="card-profile" data-id="${escapeHtml(card.id)}" title="Xem thông tin chi tiết của ${escapeHtml(card.name)}" aria-label="Hồ sơ ${escapeHtml(card.name)}">
+              <span class="profile-btn-icon" aria-hidden="true">ℹ</span> Hồ sơ
+            </button>
+          </div>
           <div class="card-subtitle"><p class="card-group-name">${escapeHtml(card.group)}</p><div class="card-classification" aria-label="Phân loại thẻ">
             <span class="classification-grade">Cấp ${escapeHtml(grade)}</span>
             <span class="classification-type">${type ? `Thẻ ${escapeHtml(type.name)}` : "Chưa rõ loại thẻ"}</span>
@@ -1010,6 +1746,15 @@ function renderCards() {
       </article>`;
       }).join("")}</div>
     </section>`).join("");
+  if (activeTooltipCardId && elements.memberTooltip && !elements.memberTooltip.hidden) {
+    const currentAnchor = document.querySelector(`.character-card[data-id="${activeTooltipCardId}"]`) ||
+                          document.querySelector(`.team-slot[data-id="${activeTooltipCardId}"]`);
+    if (currentAnchor) {
+      showMemberTooltip(activeTooltipCardId, currentAnchor, isTooltipPinned);
+    } else if (!isTooltipPinned) {
+      hideMemberTooltip(true);
+    }
+  }
 }
 
 function renderTeam() {
@@ -1023,7 +1768,7 @@ function renderTeam() {
   elements.teamGroup.classList.toggle("has-group", Boolean(teamGroup));
   elements.teamTotal.textContent = total.toLocaleString("vi-VN");
   elements.teamSlots.innerHTML = teamCards.map((card, index) => card ? `
-    <div class="team-slot">
+    <div class="team-slot" data-id="${escapeHtml(card.id)}">
       <span class="slot-avatar">${escapeHtml(initials(card.name))}</span>
       <span class="slot-copy"><strong>${escapeHtml(card.name)}</strong><span>${escapeHtml(card.group)} · ${escapeHtml(card.grade ?? card.rarity)} · ${escapeHtml(cardTypes.find((type) => type.id === card.type)?.name || "Chưa rõ")} · LV ${cardLevel(card)} · ${cardPower(card).toLocaleString("vi-VN")} PWR</span></span>
       <button type="button" class="remove-slot" data-action="remove-slot" data-index="${index}" aria-label="Xóa ${escapeHtml(card.name)} khỏi đội hình">×</button>
@@ -1303,6 +2048,153 @@ elements.buildName.addEventListener("keydown", (event) => {
   if (event.key === "Enter") saveBuild();
 });
 
+let activeTooltipCardId = null;
+let tooltipHoverTimeout = null;
+let isTooltipPinned = false;
+
+function showMemberTooltip(cardId, anchorElement, pin = false) {
+  const card = cardById(cardId);
+  const tooltip = elements.memberTooltip;
+  if (!card || !tooltip || !anchorElement) return;
+
+  const group = card.group;
+  const name = card.name;
+  const profile = getMemberProfile(group, name);
+  const level = cardLevel(card);
+  const stats = calculatedStats(card, level);
+  const grade = card.grade ?? card.rarity;
+  const type = cardTypes.find((t) => t.id === card.type);
+  const source = cardImageSource(card, grade);
+  const power = cardPower(card, level);
+
+  const groupColor = profile.groupColor || (type ? type.color : "#a894fa");
+  tooltip.style.setProperty("--tooltip-accent", groupColor);
+
+  // Avatar / photo
+  const avatarImg = tooltip.querySelector(".tooltip-avatar-img");
+  const avatarMark = tooltip.querySelector(".tooltip-avatar-mark");
+  if (source?.url) {
+    avatarImg.src = source.url;
+    avatarImg.alt = `Ảnh ${name}`;
+    avatarImg.hidden = false;
+    avatarMark.hidden = true;
+  } else {
+    avatarImg.src = "";
+    avatarImg.hidden = true;
+    avatarMark.textContent = initials(name);
+    avatarMark.hidden = false;
+  }
+
+  // Titles & tags
+  tooltip.querySelector(".tooltip-group-badge").textContent = group;
+  tooltip.querySelector(".tooltip-debut-badge").textContent = profile.debut ? `Debut: ${profile.debut}` : "";
+  tooltip.querySelector(".tooltip-member-name").textContent = name;
+  tooltip.querySelector(".tooltip-real-name").textContent = profile.realName || name;
+
+  // Basic info fields
+  tooltip.querySelector(".tooltip-birth").textContent = profile.birthDate || "Đang cập nhật";
+  tooltip.querySelector(".tooltip-zodiac").textContent = profile.zodiac || "—";
+  tooltip.querySelector(".tooltip-nationality").textContent = profile.nationality || "—";
+  tooltip.querySelector(".tooltip-position").textContent = profile.position || "Thành viên";
+  tooltip.querySelector(".tooltip-agency").textContent = profile.agency || "HYBE";
+  tooltip.querySelector(".tooltip-fandom").textContent = profile.fandom || "—";
+  tooltip.querySelector(".tooltip-bio").textContent = profile.bio || `Thành viên của ${group} trong Rhythm Hive.`;
+
+  // Game card info
+  tooltip.querySelector(".tooltip-card-power").textContent = `${power.toLocaleString("vi-VN")} PWR`;
+  const gradeChip = tooltip.querySelector(".tooltip-card-grade");
+  gradeChip.textContent = `Cấp ${grade}`;
+  gradeChip.className = `tooltip-chip tooltip-card-grade grade-${grade.toLowerCase()}`;
+
+  const typeChip = tooltip.querySelector(".tooltip-card-type");
+  typeChip.textContent = type ? `Thẻ ${type.name}` : "Chưa rõ loại";
+  typeChip.className = `tooltip-chip tooltip-card-type ${type ? `type-${type.id}` : "type-unknown"}`;
+
+  tooltip.querySelector(".tooltip-card-level").textContent = `LV ${level}/60`;
+
+  tooltip.querySelector(".t-vocal").textContent = stats.vocal.toLocaleString("vi-VN");
+  tooltip.querySelector(".t-dance").textContent = stats.dance.toLocaleString("vi-VN");
+  tooltip.querySelector(".t-rap").textContent = stats.rap.toLocaleString("vi-VN");
+  tooltip.querySelector(".t-charm").textContent = stats.charm.toLocaleString("vi-VN");
+
+  if (pin) {
+    isTooltipPinned = true;
+    tooltip.classList.add("is-pinned");
+    tooltip.setAttribute("aria-hidden", "false");
+  } else if (!isTooltipPinned) {
+    tooltip.classList.remove("is-pinned");
+    tooltip.setAttribute("aria-hidden", "false");
+  }
+
+  tooltip.hidden = false;
+  positionMemberTooltip(anchorElement);
+  requestAnimationFrame(() => {
+    tooltip.classList.add("is-visible");
+  });
+}
+
+function hideMemberTooltip(force = false) {
+  const tooltip = elements.memberTooltip;
+  if (!tooltip) return;
+  if (isTooltipPinned && !force) return;
+
+  clearTimeout(tooltipHoverTimeout);
+  tooltip.classList.remove("is-visible");
+  if (force) {
+    isTooltipPinned = false;
+    tooltip.classList.remove("is-pinned");
+    tooltip.hidden = true;
+    tooltip.setAttribute("aria-hidden", "true");
+    activeTooltipCardId = null;
+  } else {
+    setTimeout(() => {
+      if (!tooltip.classList.contains("is-visible") && !isTooltipPinned) {
+        tooltip.hidden = true;
+        tooltip.setAttribute("aria-hidden", "true");
+        activeTooltipCardId = null;
+      }
+    }, 180);
+  }
+}
+
+function positionMemberTooltip(anchorElement) {
+  const tooltip = elements.memberTooltip;
+  if (!tooltip || !anchorElement) return;
+
+  const targetRect = anchorElement.getBoundingClientRect();
+  const tipWidth = tooltip.offsetWidth || 380;
+  const tipHeight = tooltip.offsetHeight || 390;
+  const margin = 12;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  let left = 0;
+  let top = 0;
+
+  const spaceRight = viewportWidth - targetRect.right;
+  const spaceLeft = targetRect.left;
+
+  if (spaceRight >= tipWidth + margin) {
+    left = targetRect.right + margin;
+    top = targetRect.top;
+  } else if (spaceLeft >= tipWidth + margin) {
+    left = targetRect.left - tipWidth - margin;
+    top = targetRect.top;
+  } else if (targetRect.top >= tipHeight + margin) {
+    left = targetRect.left + (targetRect.width - tipWidth) / 2;
+    top = targetRect.top - tipHeight - margin;
+  } else {
+    left = targetRect.left + (targetRect.width - tipWidth) / 2;
+    top = targetRect.bottom + margin;
+  }
+
+  left = Math.max(margin, Math.min(left, viewportWidth - tipWidth - margin));
+  top = Math.max(margin, Math.min(top, viewportHeight - tipHeight - margin));
+
+  tooltip.style.left = `${Math.round(left)}px`;
+  tooltip.style.top = `${Math.round(top)}px`;
+}
+
 elements.grid.addEventListener("change", (event) => {
   const input = event.target.closest('input[data-action="card-level"]');
   if (input) updateCardLevel(input.dataset.id, input.value);
@@ -1316,6 +2208,17 @@ elements.grid.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-action]");
   if (!button) return;
   const { action, id } = button.dataset;
+  if (action === "card-profile") {
+    event.stopPropagation();
+    const cardElement = button.closest(".character-card");
+    if (isTooltipPinned && activeTooltipCardId === id) {
+      hideMemberTooltip(true);
+    } else {
+      activeTooltipCardId = id;
+      showMemberTooltip(id, cardElement, true);
+    }
+    return;
+  }
   if (action === "save-external-image") {
     saveExternalCardImage(id, button);
     return;
@@ -1357,6 +2260,109 @@ elements.teamSlots.addEventListener("click", (event) => {
   currentTeam[Number(button.dataset.index)] = null;
   renderAll();
 });
+
+// Hover event listeners on catalog cards
+elements.grid.addEventListener("pointerover", (event) => {
+  if (isTooltipPinned) return;
+  const cardElement = event.target.closest(".character-card");
+  if (!cardElement) return;
+  const cardId = cardElement.dataset.id;
+  if (!cardId) return;
+
+  if (activeTooltipCardId === cardId && elements.memberTooltip && !elements.memberTooltip.hidden) return;
+
+  clearTimeout(tooltipHoverTimeout);
+  tooltipHoverTimeout = setTimeout(() => {
+    activeTooltipCardId = cardId;
+    showMemberTooltip(cardId, cardElement);
+  }, 90);
+});
+
+elements.grid.addEventListener("pointerout", (event) => {
+  if (isTooltipPinned) return;
+  const cardElement = event.target.closest(".character-card");
+  if (!cardElement) return;
+  const related = event.relatedTarget;
+  if (related && cardElement.contains(related)) return;
+
+  clearTimeout(tooltipHoverTimeout);
+  activeTooltipCardId = null;
+  hideMemberTooltip();
+});
+
+// Hover event listeners on lineup team slots
+elements.teamSlots.addEventListener("pointerover", (event) => {
+  if (isTooltipPinned) return;
+  const slotElement = event.target.closest(".team-slot[data-id]");
+  if (!slotElement) return;
+  const cardId = slotElement.dataset.id;
+  if (!cardId) return;
+
+  if (activeTooltipCardId === cardId && elements.memberTooltip && !elements.memberTooltip.hidden) return;
+
+  clearTimeout(tooltipHoverTimeout);
+  tooltipHoverTimeout = setTimeout(() => {
+    activeTooltipCardId = cardId;
+    showMemberTooltip(cardId, slotElement);
+  }, 90);
+});
+
+elements.teamSlots.addEventListener("pointerout", (event) => {
+  if (isTooltipPinned) return;
+  const slotElement = event.target.closest(".team-slot[data-id]");
+  if (!slotElement) return;
+  const related = event.relatedTarget;
+  if (related && slotElement.contains(related)) return;
+
+  clearTimeout(tooltipHoverTimeout);
+  activeTooltipCardId = null;
+  hideMemberTooltip();
+});
+
+// Close pinned tooltip
+if (elements.memberTooltip) {
+  const closeBtn = elements.memberTooltip.querySelector(".tooltip-close-btn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      hideMemberTooltip(true);
+    });
+  }
+}
+
+document.addEventListener("click", (event) => {
+  if (isTooltipPinned) {
+    if (!elements.memberTooltip?.contains(event.target) && !event.target.closest('button[data-action="card-profile"]')) {
+      hideMemberTooltip(true);
+    }
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    hideMemberTooltip(true);
+  }
+});
+
+window.addEventListener("scroll", () => {
+  if (activeTooltipCardId && elements.memberTooltip && !elements.memberTooltip.hidden) {
+    const currentAnchor = document.querySelector(`.character-card[data-id="${activeTooltipCardId}"]`) ||
+                          document.querySelector(`.team-slot[data-id="${activeTooltipCardId}"]`);
+    if (currentAnchor) {
+      positionMemberTooltip(currentAnchor);
+    } else if (!isTooltipPinned) {
+      hideMemberTooltip();
+    }
+  }
+}, { passive: true });
+
+window.addEventListener("resize", () => {
+  if (activeTooltipCardId && elements.memberTooltip && !elements.memberTooltip.hidden) {
+    const currentAnchor = document.querySelector(`.character-card[data-id="${activeTooltipCardId}"]`) ||
+                          document.querySelector(`.team-slot[data-id="${activeTooltipCardId}"]`);
+    if (currentAnchor) positionMemberTooltip(currentAnchor);
+  }
+}, { passive: true });
 
 elements.savedBuilds.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-action]");
