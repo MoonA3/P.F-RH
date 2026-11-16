@@ -5,7 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#111019">
     <title>Rhythm Hive Wiki — Thẻ & đội hình</title>
-    <link rel="stylesheet" href="styles.css?v=5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=24">
+    <script>
+      window.addEventListener("error", function (e) {
+        console.error("RhWiki Error:", e.error || e.message);
+        var n = document.getElementById("notice");
+        if (n) {
+          n.textContent = "Lỗi hiển thị: " + (e.message || "Không xác định") + (e.lineno ? " (dòng " + e.lineno + ")" : "");
+          n.hidden = false;
+          n.style.display = "block";
+        }
+      });
+    </script>
   </head>
   <body>
     <div class="page-shell">
@@ -19,134 +33,384 @@
           >
           <span>RHYTHM <span class="brand-accent">HIVE WIKI</span></span>
         </a>
-        <span class="topbar-note">CARD COLLECTION <span class="live-dot"></span></span>
+
+        <!-- Main Navigation Tabs in Topbar Banner -->
+        <nav class="app-tabs" aria-label="Điều hướng chính" role="tablist">
+          <button type="button" class="tab-btn is-active" data-tab="cards" role="tab" aria-selected="true" aria-controls="tab-panel-cards">
+            <span class="tab-icon" aria-hidden="true">🎴</span>
+            <span class="tab-label">Kho thẻ</span>
+            <span id="tab-card-count" class="tab-badge">0</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="lineup" role="tab" aria-selected="false" aria-controls="tab-panel-lineup">
+            <span class="tab-icon" aria-hidden="true">⚡</span>
+            <span class="tab-label">Đội hình</span>
+            <span id="tab-team-count" class="tab-badge">0/5</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="songs" role="tab" aria-selected="false" aria-controls="tab-panel-songs">
+            <span class="tab-icon" aria-hidden="true">🎵</span>
+            <span class="tab-label">Bảng bài hát</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="idols" role="tab" aria-selected="false" aria-controls="tab-panel-idols">
+            <span class="tab-icon" aria-hidden="true">👤</span>
+            <span class="tab-label">Hồ sơ Idol</span>
+          </button>
+        </nav>
+
+        <span class="topbar-note">COLLECTION BUILDER <span class="live-dot"></span></span>
       </header>
 
       <main>
-        <section class="intro">
-          <div class="intro-copy">
-            <p class="eyebrow">YOUR COLLECTION, YOUR STAGE</p>
-            <h1>Thẻ của bạn.<br><span>Đội hình của bạn.</span></h1>
-            <p class="intro-text">Khám phá bộ sưu tập, theo dõi chỉ số và tạo đội hình yêu thích.</p>
-          </div>
-          <div class="intro-art" aria-hidden="true">
-            <span class="art-orbit orbit-one"></span>
-            <span class="art-orbit orbit-two"></span>
-            <span class="art-star star-one">✦</span>
-            <span class="art-star star-two">✧</span>
-            <span class="art-card art-card-back"></span>
-            <span class="art-card art-card-front"><span>RH</span><b>YOUR<br>STAGE</b></span>
-          </div>
-        </section>
-
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
 
-        <section class="toolbar" aria-label="Bộ lọc thẻ">
-          <label class="search-box">
-            <span class="sr-only">Tìm nhân vật hoặc nhóm nhạc</span>
-            <span class="search-icon" aria-hidden="true">⌕</span>
-            <input id="search-input" type="search" placeholder="Tìm nhân vật, nhóm nhạc..." autocomplete="off">
-          </label>
-          <label class="select-wrap">
-            <span class="sr-only">Lọc theo nhóm nhạc</span>
-            <select id="group-filter"><option value="">Tất cả nhóm</option></select>
-          </label>
-          <label class="select-wrap">
-            <span class="sr-only">Lọc theo cấp độ</span>
-            <select id="level-filter"><option value="">Tất cả Level</option></select>
-          </label>
-          <label class="select-wrap">
-            <span class="sr-only">Lọc theo cấp thẻ</span>
-            <select id="grade-filter"><option value="">Tất cả cấp thẻ</option></select>
-          </label>
-          <label class="select-wrap">
-            <span class="sr-only">Lọc theo loại thẻ</span>
-            <select id="type-filter"><option value="">Tất cả loại thẻ</option></select>
-          </label>
-          <label class="favorite-filter">
-            <input id="favorites-only" type="checkbox">
-            <span class="heart-icon" aria-hidden="true">♥</span>
-            <span>Yêu thích</span>
-          </label>
-          <label class="import-button">
-            <input id="import-input" type="file" accept=".json,application/json">
-            <span aria-hidden="true">↥</span> Nhập JSON
-          </label>
-        </section>
-        <div class="card-legend" aria-label="Chú giải cấp và loại thẻ">
-          <div class="legend-set">
-            <span class="legend-title">CẤP THẺ</span>
-            <span class="grade-key grade-ur">UR</span><span class="grade-key grade-xr">XR</span>
-            <span class="grade-key grade-r">R</span><span class="grade-key grade-s">S</span>
-            <span class="grade-key grade-a">A</span><span class="grade-key grade-b">B</span>
-          </div>
-          <div class="legend-set">
-            <span class="legend-title">LOẠI THẺ</span>
-            <span class="type-key type-live">Live</span><span class="type-key type-special">Special</span>
-            <span class="type-key type-fx">FX</span><span class="type-key type-season">Season</span>
-            <span class="type-key type-album">Album</span>
-          </div>
-        </div>
-
-        <section class="level-panel" aria-label="Điều chỉnh level">
-          <div class="level-heading">
-            <div>
-              <p class="eyebrow">BULK LEVEL UPDATE</p>
-              <h2>Đặt Level cho toàn bộ thẻ</h2>
+        <!-- TAB 1: CARDS COLLECTION -->
+        <div id="tab-panel-cards" class="tab-panel is-active" role="tabpanel" aria-labelledby="tab-cards">
+          <section class="intro">
+            <div class="intro-copy">
+              <p class="eyebrow">YOUR COLLECTION, YOUR STAGE</p>
+              <h1>Thẻ của bạn.<br><span>Đội hình của bạn.</span></h1>
+              <p class="intro-text">Khám phá bộ sưu tập, theo dõi chỉ số và tạo đội hình yêu thích.</p>
             </div>
-            <label class="level-number">
-              <input id="level-input" type="number" min="1" max="60" value="1" inputmode="numeric">
-              <span>/ 60</span>
-            </label>
-          </div>
-          <input id="level-range" class="level-range" type="range" min="1" max="60" value="1" aria-label="Level thẻ">
-          <div class="range-labels"><span>LV. 1</span><span>LV. 60</span></div>
-          <p class="demo-disclaimer"><span aria-hidden="true">ⓘ</span> Thay đổi Level riêng trên từng thẻ hoặc dùng thanh này để cập nhật toàn bộ. Ảnh TWS và TXT cùng cấp UR/loại FX theo ảnh; chỉ số của thẻ vẫn là dữ liệu minh họa.</p>
-        </section>
-
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">THE ARCHIVE</p>
-            <h2>Bộ sưu tập <span id="card-count" class="count-pill">0</span></h2>
-          </div>
-          <p id="result-label" class="result-label"></p>
-        </div>
-
-        <div class="main-layout">
-          <section class="catalog" aria-label="Danh sách thẻ">
-            <div id="card-grid" class="card-grid"></div>
-            <div id="empty-state" class="empty-state" hidden>
-              <span class="empty-icon" aria-hidden="true">⌕</span>
-              <h3>Chưa tìm thấy thẻ phù hợp</h3>
-              <p>Thử đổi từ khóa hoặc bộ lọc của bạn.</p>
+            <div class="intro-art" aria-hidden="true">
+              <span class="art-orbit orbit-one"></span>
+              <span class="art-orbit orbit-two"></span>
+              <span class="art-star star-one">✦</span>
+              <span class="art-star star-two">✧</span>
+              <span class="art-card art-card-back"></span>
+              <span class="art-card art-card-front"><span>RH</span><b>YOUR<br>STAGE</b></span>
             </div>
           </section>
+          <section class="toolbar" aria-label="Bộ lọc thẻ">
+            <label class="search-box">
+              <span class="sr-only">Tìm nhân vật hoặc nhóm nhạc</span>
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input id="search-input" type="search" placeholder="Tìm nhân vật, nhóm nhạc..." autocomplete="off">
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Lọc theo nhóm nhạc</span>
+              <select id="group-filter"><option value="">Tất cả nhóm</option></select>
+            </label>
+            <label class="select-wrap" id="member-filter-wrap" style="display:none">
+              <span class="sr-only">Lọc theo thành viên</span>
+              <select id="member-filter"><option value="">Tất cả thành viên</option></select>
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Lọc theo cấp độ</span>
+              <select id="level-filter"><option value="">Tất cả Level</option></select>
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Lọc theo cấp thẻ</span>
+              <select id="grade-filter"><option value="">Tất cả cấp thẻ</option></select>
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Lọc theo loại thẻ</span>
+              <select id="type-filter"><option value="">Tất cả loại thẻ</option></select>
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Sắp xếp thẻ</span>
+              <select id="card-sort-select">
+                <option value="type-grade">Sắp xếp: Loại thẻ (Live → Album)</option>
+                <option value="grade">Sắp xếp: Cấp thẻ (UR → S)</option>
+                <option value="member">Sắp xếp: Tên thành viên (A → Z)</option>
+                <option value="power-desc">Sắp xếp: Sức mạnh (Cao → Thấp)</option>
+              </select>
+            </label>
+            <label class="favorite-filter">
+              <input id="favorites-only" type="checkbox">
+              <span class="heart-icon" aria-hidden="true">♥</span>
+              <span>Yêu thích</span>
+            </label>
+            <label class="import-button">
+              <input id="import-input" type="file" accept=".json,application/json">
+              <span aria-hidden="true">↥</span> Nhập JSON
+            </label>
+            <button type="button" id="open-add-card-btn" class="add-card-toolbar-btn">
+              <span aria-hidden="true">＋</span> Thêm thẻ mới
+            </button>
+            <button type="button" id="reset-catalog-btn" class="add-card-toolbar-btn" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.18)" title="Khôi phục dữ liệu ảnh và cấp thẻ chuẩn gốc Rhythm Hive">
+              <span aria-hidden="true">↺</span> Đồng bộ lại chuẩn
+            </button>
+          </section>
+          <div class="card-legend" aria-label="Chú giải cấp và loại thẻ">
+            <div class="legend-set">
+              <span class="legend-title">CẤP THẺ</span>
+              <span class="grade-key grade-ur">UR</span><span class="grade-key grade-xr">XR</span>
+              <span class="grade-key grade-r">R</span><span class="grade-key grade-s">S</span>
+              <span class="grade-key grade-a">A</span><span class="grade-key grade-b">B</span>
+            </div>
+            <div class="legend-set">
+              <span class="legend-title">LOẠI THẺ</span>
+              <span class="type-key type-live">Live</span><span class="type-key type-special">Special</span>
+              <span class="type-key type-fx">FX</span><span class="type-key type-season">Season</span>
+              <span class="type-key type-album">Album</span>
+            </div>
+          </div>
 
-          <aside class="team-panel" aria-label="Đội hình cá nhân">
-            <div class="team-header">
+          <section class="level-panel" aria-label="Điều chỉnh level">
+            <div class="level-heading">
               <div>
-                <p class="eyebrow">MY LINEUP</p>
-                <h2>Đội hình <span class="team-count" id="team-count">0/5</span></h2>
-                <p class="team-group" id="team-group">Chọn một nhóm nhạc để bắt đầu</p>
+                <p class="eyebrow">BULK LEVEL UPDATE</p>
+                <h2>Đặt Level cho toàn bộ thẻ</h2>
               </div>
-              <span class="team-emblem" aria-hidden="true">✦</span>
+              <label class="level-number">
+                <input id="level-input" type="number" min="1" max="60" value="1" inputmode="numeric">
+                <span>/ 60</span>
+              </label>
             </div>
-            <div id="team-slots" class="team-slots"></div>
-            <div class="team-total">
-              <span>TỔNG SỨC MẠNH ĐỘI</span>
-              <strong id="team-total">0</strong>
+            <input id="level-range" class="level-range" type="range" min="1" max="60" value="1" aria-label="Level thẻ">
+            <div class="range-labels"><span>LV. 1</span><span>LV. 60</span></div>
+            <p class="demo-disclaimer"><span aria-hidden="true">ⓘ</span> Thay đổi Level riêng trên từng thẻ hoặc dùng thanh này để cập nhật toàn bộ. Ảnh TWS và TXT cùng cấp UR/loại FX theo ảnh; chỉ số của thẻ vẫn là dữ liệu minh họa.</p>
+          </section>
+
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">THE ARCHIVE</p>
+              <h2>Bộ sưu tập <span id="card-count" class="count-pill">0</span></h2>
             </div>
-            <label class="build-name-label" for="build-name">Tên đội hình</label>
-            <div class="save-row">
-              <input id="build-name" type="text" maxlength="40" placeholder="Ví dụ: Main lineup">
-              <button id="save-build" class="primary-button" type="button">Lưu</button>
+            <p id="result-label" class="result-label"></p>
+          </div>
+
+          <div class="main-layout">
+            <section class="catalog" aria-label="Danh sách thẻ">
+              <div id="card-grid" class="card-grid"></div>
+              <div id="empty-state" class="empty-state" hidden>
+                <span class="empty-icon" aria-hidden="true">⌕</span>
+                <h3>Chưa tìm thấy thẻ phù hợp</h3>
+                <p>Thử đổi từ khóa hoặc bộ lọc của bạn.</p>
+                <button type="button" id="reset-filters-btn" class="modal-secondary-btn" style="margin-top:12px;padding:8px 16px;cursor:pointer;border-radius:8px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)">Đặt lại bộ lọc</button>
+              </div>
+            </section>
+
+            <aside class="team-panel" aria-label="Đội hình cá nhân">
+              <div class="team-header">
+                <div>
+                  <p class="eyebrow">MY LINEUP</p>
+                  <h2>Đội hình <span class="team-count" id="team-count">0/5</span></h2>
+                  <p class="team-group" id="team-group">Chọn một nhóm nhạc để bắt đầu</p>
+                </div>
+                <button type="button" class="expand-lineup-btn" data-action="go-to-lineup" title="Mở Studio đội hình đầy đủ">Mở Studio ↗</button>
+              </div>
+              <div class="sidebar-group-row">
+                <label for="sidebar-group-select" class="sidebar-group-label">Nhóm đang chọn:</label>
+                <select id="sidebar-group-select" class="sidebar-group-select" title="Chuyển đổi nhóm nhạc cho đội hình"></select>
+              </div>
+              <div id="team-slots" class="team-slots"></div>
+              <div class="team-total">
+                <span>TỔNG SỨC MẠNH ĐỘI</span>
+                <strong id="team-total">0</strong>
+              </div>
+              <div class="team-quick-stats">
+                <div class="q-stat"><span class="q-lbl">Hát</span><b id="team-vocal" class="q-val">0</b></div>
+                <div class="q-stat"><span class="q-lbl">Nhảy</span><b id="team-dance" class="q-val">0</b></div>
+                <div class="q-stat"><span class="q-lbl">Rap</span><b id="team-rap" class="q-val">0</b></div>
+                <div class="q-stat"><span class="q-lbl">Hút</span><b id="team-charm" class="q-val">0</b></div>
+              </div>
+              <div class="team-quick-actions">
+                <button type="button" class="auto-lineup-btn" data-action="auto-lineup">✨ Tự động xếp mạnh nhất</button>
+                <button type="button" class="clear-lineup-btn" data-action="clear-lineup">Xóa</button>
+              </div>
+              <label class="build-name-label" for="build-name">Tên đội hình</label>
+              <div class="save-row">
+                <input id="build-name" type="text" maxlength="40" placeholder="Ví dụ: Main lineup">
+                <button id="save-build" class="primary-button" type="button">Lưu</button>
+              </div>
+              <div class="saved-builds-heading">
+                <span>ĐỘI HÌNH ĐÃ LƯU</span>
+                <span id="saved-count">0</span>
+              </div>
+              <div id="saved-builds" class="saved-builds"></div>
+            </aside>
+          </div>
+        </div>
+
+        <!-- TAB 2: LINEUP STUDIO -->
+        <div id="tab-panel-lineup" class="tab-panel" role="tabpanel" aria-labelledby="tab-lineup" hidden>
+          <section class="lineup-studio" aria-label="Studio đội hình chuyên sâu">
+            <div class="studio-header">
+              <div>
+                <p class="eyebrow">STAGE LINEUP STUDIO</p>
+                <h2>Sân khấu Đội hình</h2>
+                <p class="studio-subtitle">Tối ưu hóa và theo dõi sức mạnh sân khấu cho từng nhóm nhạc</p>
+              </div>
+              <div class="studio-group-picker-wrap">
+                <label for="studio-group-select">Nhóm nhạc đang chọn:</label>
+                <select id="studio-group-select" class="studio-select"></select>
+              </div>
             </div>
-            <div class="saved-builds-heading">
-              <span>ĐỘI HÌNH ĐÃ LƯU</span>
-              <span id="saved-count">0</span>
+
+            <!-- Group Selector Tabs Bar for all 9 groups -->
+            <div id="studio-group-tabs" class="group-pills-bar studio-group-pills-bar" role="tablist" aria-label="Chọn nhóm nhạc cho đội hình"></div>
+
+            <!-- Stage Floor with 5 slots -->
+            <div class="studio-stage-wrap">
+              <div class="stage-floor-light" aria-hidden="true"></div>
+              <div id="studio-slots" class="studio-slots-grid"></div>
             </div>
-            <div id="saved-builds" class="saved-builds"></div>
-          </aside>
+
+            <!-- Total Power Banner & Stats Grid -->
+            <div class="studio-power-banner">
+              <div class="power-main-box">
+                <span class="power-label">TỔNG SỨC MẠNH SÂN KHẤU</span>
+                <strong id="studio-total-power" class="power-number">0</strong>
+                <span id="studio-team-group-badge" class="studio-group-pill">Chưa chọn nhóm</span>
+              </div>
+              <div class="studio-stats-grid">
+                <div class="studio-stat-card stat-vocal">
+                  <div class="stat-head"><span>🎤 HÁT (VOCAL)</span><strong id="studio-vocal">0</strong></div>
+                  <div class="stat-bar"><div id="studio-vocal-bar" class="stat-fill" style="width:0%"></div></div>
+                </div>
+                <div class="studio-stat-card stat-dance">
+                  <div class="stat-head"><span>💃 NHẢY (DANCE)</span><strong id="studio-dance">0</strong></div>
+                  <div class="stat-bar"><div id="studio-dance-bar" class="stat-fill" style="width:0%"></div></div>
+                </div>
+                <div class="studio-stat-card stat-rap">
+                  <div class="stat-head"><span>🎧 RAP</span><strong id="studio-rap">0</strong></div>
+                  <div class="stat-bar"><div id="studio-rap-bar" class="stat-fill" style="width:0%"></div></div>
+                </div>
+                <div class="studio-stat-card stat-charm">
+                  <div class="stat-head"><span>✨ SỨC HÚT (CHARM)</span><strong id="studio-charm">0</strong></div>
+                  <div class="stat-bar"><div id="studio-charm-bar" class="stat-fill" style="width:0%"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lineup Actions -->
+            <div class="studio-actions-bar">
+              <button type="button" class="studio-auto-btn" data-action="auto-lineup">
+                <span>✨</span> Tự động xếp mạnh nhất
+              </button>
+              <button type="button" class="studio-clear-btn" data-action="clear-lineup">
+                <span>🗑️</span> Làm mới đội hình
+              </button>
+              <button type="button" class="studio-cards-btn" data-action="go-to-cards">
+                <span>🎴</span> Mở Kho thẻ để chọn
+              </button>
+            </div>
+
+            <!-- Available cards tray of current group -->
+            <div class="studio-tray-section">
+              <div class="studio-tray-header">
+                <div>
+                  <p class="eyebrow">GROUP CARDS TRAY</p>
+                  <h3>Thẻ khả dụng của <span id="studio-tray-group-name" class="highlight-group">nhóm</span></h3>
+                </div>
+                <span id="studio-tray-count" class="count-pill">0 thẻ</span>
+              </div>
+              <div id="studio-tray-grid" class="studio-tray-grid"></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 3: SONGS DATABASE -->
+        <div id="tab-panel-songs" class="tab-panel" role="tabpanel" aria-labelledby="tab-songs" hidden>
+          <section class="songs-section" aria-label="Bảng bài hát & Điểm cao">
+            <div class="section-hero">
+              <p class="eyebrow">RHYTHM HIVE SONGS DATABASE</p>
+              <h2>Bảng bài hát & Điểm mục tiêu cao nhất</h2>
+              <p class="section-desc">Tra cứu danh sách bài hát theo nhóm và điểm mục tiêu (Stage Goal Score) chuẩn từ Rhythm Hive Wiki.</p>
+            </div>
+
+            <div class="songs-controls">
+              <div id="songs-group-tabs" class="group-pills-bar"></div>
+              
+              <div class="songs-search-and-yt">
+                <label class="search-box songs-search">
+                  <span class="sr-only">Tìm tên bài hát hoặc album</span>
+                  <span class="search-icon" aria-hidden="true">⌕</span>
+                  <input id="songs-search-input" type="search" placeholder="Tìm bài hát, album, năm..." autocomplete="off">
+                </label>
+                <div class="songs-action-buttons">
+                  <button type="button" id="songs-youtube-btn" class="songs-youtube-btn" title="Tìm thêm bài hát của nhóm trên YouTube">
+                    <span class="yt-icon" aria-hidden="true">▶</span>
+                    <span>Tìm thêm trên YouTube ↗</span>
+                  </button>
+                  <button type="button" id="songs-add-custom-btn" class="songs-add-custom-btn" title="Bổ sung bài hát mới vào danh sách game">
+                    <span aria-hidden="true">➕</span>
+                    <span>Thêm bài hát</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Bộ lọc bài hát: Album, Độ khó, Level 1-17, Sắp xếp -->
+              <div class="songs-filters-bar">
+                <div class="songs-filter-item">
+                  <label for="songs-album-filter">Album:</label>
+                  <select id="songs-album-filter" class="songs-select-filter">
+                    <option value="">Tất cả Album</option>
+                  </select>
+                </div>
+                <div class="songs-filter-item">
+                  <label for="songs-diff-filter">Độ khó:</label>
+                  <select id="songs-diff-filter" class="songs-select-filter">
+                    <option value="all">Tất cả độ khó</option>
+                    <option value="easy">Easy (Dễ)</option>
+                    <option value="normal">Normal (Vừa)</option>
+                    <option value="hard">Hard (Khó)</option>
+                    <option value="superHard">Super Hard (Cực khó)</option>
+                  </select>
+                </div>
+                <div class="songs-filter-item">
+                  <label for="songs-level-filter">Level (1 — 17):</label>
+                  <select id="songs-level-filter" class="songs-select-filter">
+                    <option value="">Tất cả Level</option>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                    <option value="6">Level 6</option>
+                    <option value="7">Level 7</option>
+                    <option value="8">Level 8</option>
+                    <option value="9">Level 9</option>
+                    <option value="10">Level 10</option>
+                    <option value="11">Level 11</option>
+                    <option value="12">Level 12</option>
+                    <option value="13">Level 13</option>
+                    <option value="14">Level 14</option>
+                    <option value="15">Level 15</option>
+                    <option value="16">Level 16</option>
+                    <option value="17">Level 17</option>
+                  </select>
+                </div>
+                <div class="songs-filter-item">
+                  <label for="songs-sort-filter">Sắp xếp:</label>
+                  <select id="songs-sort-filter" class="songs-select-filter">
+                    <option value="score-desc">Stage Goal cao nhất</option>
+                    <option value="date-desc">Phát hành: Mới nhất ➔ Cũ nhất</option>
+                    <option value="date-asc">Phát hành: Cũ nhất ➔ Mới nhất</option>
+                    <option value="title-asc">Tên bài hát: A ➔ Z</option>
+                    <option value="level-desc">Level Super Hard: Cao ➔ Thấp</option>
+                    <option value="level-asc">Level Super Hard: Thấp ➔ Cao</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="songs-summary-bar" class="songs-summary-bar"></div>
+            <div id="songs-status" class="songs-status-notice" hidden></div>
+            <div id="songs-grid" class="songs-grid"></div>
+          </section>
+        </div>
+
+        <!-- TAB 4: IDOL ENCYCLOPEDIA -->
+        <div id="tab-panel-idols" class="tab-panel" role="tabpanel" aria-labelledby="tab-idols" hidden>
+          <section class="idols-section" aria-label="Bách khoa thần tượng">
+            <div class="section-hero">
+              <p class="eyebrow">HYBE IDOL ENCYCLOPEDIA</p>
+              <h2>Hồ sơ Thần tượng</h2>
+              <p class="section-desc">Thông tin cá nhân, ngày sinh, cung hoàng đạo và bộ sưu tập thẻ của các nghệ sĩ trong Rhythm Hive.</p>
+            </div>
+
+            <div class="idols-controls">
+              <div id="idols-group-tabs" class="group-pills-bar"></div>
+              <label class="search-box idols-search">
+                <span class="sr-only">Tìm thần tượng</span>
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input id="idols-search-input" type="search" placeholder="Tìm thần tượng theo tên hoặc tên thật..." autocomplete="off">
+              </label>
+            </div>
+
+            <div id="idols-grid" class="idols-grid"></div>
+          </section>
         </div>
       </main>
 
@@ -167,6 +431,7 @@
           <div class="member-tooltip-title-wrap">
             <div class="member-tooltip-tags">
               <span class="tooltip-group-badge"></span>
+              <span class="tooltip-fandom-badge"></span>
               <span class="tooltip-debut-badge"></span>
             </div>
             <h4 class="tooltip-member-name"></h4>
@@ -224,6 +489,224 @@
       </div>
     </div>
 
-    <script src="app.js?v=21"></script>
+    <!-- Floating Song Details Tooltip / Popover -->
+    <div id="song-tooltip" class="song-tooltip" role="tooltip" aria-hidden="true" hidden>
+      <div class="song-tooltip-content">
+        <div class="song-tooltip-header">
+          <span class="song-tooltip-icon">🎵</span>
+          <div class="song-tooltip-title-wrap">
+            <div class="song-tooltip-badges">
+              <span class="song-tooltip-group-badge"></span>
+              <span class="song-tooltip-fandom-badge"></span>
+              <span class="song-tooltip-album-badge"></span>
+            </div>
+            <h4 class="song-tooltip-title"></h4>
+          </div>
+          <button type="button" class="song-tooltip-close-btn" aria-label="Đóng bảng bài hát" title="Đóng">×</button>
+        </div>
+
+        <div class="song-tooltip-details">
+          <div class="song-tooltip-item">
+            <span class="song-tooltip-label">📅 Ngày phát hành</span>
+            <span class="song-tooltip-val song-tooltip-release"></span>
+          </div>
+          <div class="song-tooltip-item">
+            <span class="song-tooltip-label">💿 Album</span>
+            <span class="song-tooltip-val song-tooltip-album"></span>
+          </div>
+          <div class="song-tooltip-item">
+            <span class="song-tooltip-label">✨ Fandom</span>
+            <span class="song-tooltip-val song-tooltip-fandom"></span>
+          </div>
+          <div class="song-tooltip-item">
+            <span class="song-tooltip-label">⏱️ Thời lượng / BPM</span>
+            <span class="song-tooltip-val song-tooltip-timing"></span>
+          </div>
+          <div class="song-tooltip-item">
+            <span class="song-tooltip-label">🎯 Mục tiêu Stage Goal</span>
+            <span class="song-tooltip-val song-tooltip-score song-highlight-gold"></span>
+          </div>
+        </div>
+
+        <div class="song-tooltip-levels-section">
+          <div class="levels-section-title">CẤP ĐỘ ĐỘ KHÓ TRONG GAME (LEVEL 1 — 17)</div>
+          <div class="song-difficulty-grid">
+            <div class="diff-level-box diff-easy">
+              <span class="diff-name">EASY</span>
+              <strong class="diff-val diff-easy-val">Lv. 3</strong>
+            </div>
+            <div class="diff-level-box diff-normal">
+              <span class="diff-name">NORMAL</span>
+              <strong class="diff-val diff-normal-val">Lv. 7</strong>
+            </div>
+            <div class="diff-level-box diff-hard">
+              <span class="diff-name">HARD</span>
+              <strong class="diff-val diff-hard-val">Lv. 11</strong>
+            </div>
+            <div class="diff-level-box diff-superhard">
+              <span class="diff-name">SUPER HARD</span>
+              <strong class="diff-val diff-superhard-val">Lv. 15</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="song-tooltip-footer">
+          <a class="song-tooltip-yt-btn" href="#" target="_blank" rel="noopener noreferrer">
+            <span class="yt-play-icon">▶</span> Xem MV / Nghe trên YouTube ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Custom Song Modal -->
+    <div id="add-song-modal" class="app-modal" role="dialog" aria-labelledby="add-song-modal-title" aria-modal="true" hidden>
+      <div class="modal-backdrop" data-close-modal="add-song-modal"></div>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="add-song-modal-title">➕ Thêm bài hát vào Game</h3>
+          <button type="button" class="modal-close-btn" data-close-modal="add-song-modal" aria-label="Đóng">×</button>
+        </div>
+        <form id="add-song-form" class="modal-form">
+          <div class="form-row">
+            <label for="new-song-group">Nhóm nhạc *</label>
+            <select id="new-song-group" required class="modal-select">
+              <option value="BTS">BTS</option>
+              <option value="TXT">TXT</option>
+              <option value="ENHYPEN">ENHYPEN</option>
+              <option value="SEVENTEEN">SEVENTEEN</option>
+              <option value="LE SSERAFIM">LE SSERAFIM</option>
+              <option value="NewJeans">NewJeans</option>
+              <option value="BOYNEXTDOOR">BOYNEXTDOOR</option>
+              <option value="TWS">TWS</option>
+              <option value="ILLIT">ILLIT</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="new-song-title">Tên bài hát *</label>
+            <input id="new-song-title" type="text" required placeholder="Ví dụ: Running Wild hoặc Last Festival">
+          </div>
+          <div class="form-row form-grid-2">
+            <div>
+              <label for="new-song-album">Album</label>
+              <input id="new-song-album" type="text" placeholder="Ví dụ: Happy hoặc Last Bell">
+            </div>
+            <div>
+              <label for="new-song-date">Ngày phát hành</label>
+              <input id="new-song-date" type="date">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="new-song-score">Điểm mục tiêu Stage Goal (PWR)</label>
+            <input id="new-song-score" type="number" min="1000000" max="4000000" step="10000" value="3150000">
+          </div>
+          <div class="form-row">
+            <label>Cấp độ Level (1 — 17):</label>
+            <div class="modal-diff-inputs">
+              <div><span>Easy</span><input id="new-song-easy" type="number" min="1" max="17" value="4"></div>
+              <div><span>Normal</span><input id="new-song-normal" type="number" min="1" max="17" value="8"></div>
+              <div><span>Hard</span><input id="new-song-hard" type="number" min="1" max="17" value="12"></div>
+              <div><span>Super Hard</span><input id="new-song-superhard" type="number" min="1" max="17" value="16"></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="new-song-youtube">Link YouTube MV / Nghe nhạc (tùy chọn)</label>
+            <input id="new-song-youtube" type="url" placeholder="https://www.youtube.com/watch?v=...">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" data-close-modal="add-song-modal">Hủy</button>
+            <button type="submit" class="btn-save-song">Lưu bài hát vào Game</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Custom Card Modal -->
+    <div id="add-card-modal" class="app-modal" role="dialog" aria-labelledby="add-card-modal-title" aria-modal="true" hidden>
+      <div class="modal-backdrop" data-close-modal="add-card-modal"></div>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="add-card-modal-title">✨ Thêm Thẻ Mới Vào Bộ Sưu Tập</h3>
+          <button type="button" class="modal-close-btn" data-close-modal="add-card-modal" aria-label="Đóng">×</button>
+        </div>
+        <form id="add-card-form" class="modal-form">
+          <div class="form-row form-grid-2">
+            <div>
+              <label for="new-card-group">Nhóm nhạc *</label>
+              <select id="new-card-group" required class="modal-select">
+                <option value="BTS" selected>BTS</option>
+                <option value="TXT">TXT</option>
+                <option value="ENHYPEN">ENHYPEN</option>
+                <option value="SEVENTEEN">SEVENTEEN</option>
+                <option value="LE SSERAFIM">LE SSERAFIM</option>
+                <option value="NewJeans">NewJeans</option>
+                <option value="BOYNEXTDOOR">BOYNEXTDOOR</option>
+                <option value="TWS">TWS</option>
+                <option value="ILLIT">ILLIT</option>
+              </select>
+            </div>
+            <div>
+              <label for="new-card-member">Thành viên *</label>
+              <select id="new-card-member" required class="modal-select"></select>
+            </div>
+          </div>
+          <div class="form-row form-grid-2">
+            <div>
+              <label for="new-card-grade">Cấp thẻ (Grade) *</label>
+              <select id="new-card-grade" required class="modal-select">
+                <option value="UR" selected>UR (Ultra Rare - Cao nhất)</option>
+                <option value="XR">XR (Extremely Rare)</option>
+                <option value="R">R (Rare)</option>
+                <option value="S">S (Super)</option>
+                <option value="A">A (Advanced)</option>
+                <option value="B">B (Basic)</option>
+              </select>
+            </div>
+            <div>
+              <label for="new-card-type">Loại / Chủ đề thẻ *</label>
+              <select id="new-card-type" required class="modal-select">
+                <option value="live" selected>🔴 Live Theme (Đỏ)</option>
+                <option value="fx">🔷 FX Theme (Xanh dương)</option>
+                <option value="special">💜 Special Theme (Tím)</option>
+                <option value="season">🌿 Season Theme (Xanh lá)</option>
+                <option value="album">🟡 Album Theme (Vàng)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="new-card-theme-name">Tên chủ đề / Era (Tùy chọn)</label>
+            <input id="new-card-theme-name" type="text" placeholder="Ví dụ: Proof, Butter, I'LL LIKE YOU, 19.99...">
+          </div>
+          <div class="form-row">
+            <label>Chỉ số cơ bản tối đa (Level 60 Max):</label>
+            <div class="modal-diff-inputs">
+              <div><span>Hát (Vocal)</span><input id="new-card-vocal" type="number" min="100" max="1500" value="980"></div>
+              <div><span>Nhảy (Dance)</span><input id="new-card-dance" type="number" min="100" max="1500" value="950"></div>
+              <div><span>Rap</span><input id="new-card-rap" type="number" min="100" max="1500" value="890"></div>
+              <div><span>Sức hút (Charm)</span><input id="new-card-charm" type="number" min="100" max="1500" value="965"></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="new-card-image">Link ảnh thẻ (URL HTTPS tùy chọn)</label>
+            <input id="new-card-image" type="url" placeholder="https://...">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" data-close-modal="add-card-modal">Hủy</button>
+            <button type="submit" class="btn-save-song">Lưu thẻ vào Bộ sưu tập</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="app-v36.js?v=46"></script>
+    <script>
+      // Fallback in case app-v36.js is not loaded
+      if (typeof renderAll === "undefined") {
+        var s = document.createElement("script");
+        s.src = "app.js?t=" + Date.now();
+        document.body.appendChild(s);
+      }
+    </script>
   </body>
 </html>
+
+
